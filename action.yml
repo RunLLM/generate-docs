@@ -51,7 +51,7 @@ runs:
         python-version: '3.10'
 
     - name: Install dependencies
-      run: pip install -r requirements.txt
+      run: pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
 
     - name: Set GH Action URL
@@ -62,7 +62,7 @@ runs:
       env:
         GITHUB_REPO_NAME: ${{ github.repository}}
       run: |
-        python scripts/generate_docs.py \
+        python ${{ github.action_path }}/scripts/generate_docs.py \
         --server-address ${{ inputs.runllm_server_address }} \
         --api-key ${{ inputs.runllm_api_key }} \
         --input-api-file ${{ inputs.input_api_file }} \
