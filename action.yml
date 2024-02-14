@@ -95,6 +95,14 @@ runs:
         body: ${{ steps.get-pr-body.outputs.body}}
         base: ${{ inputs.base_branch }}
 
+    # TODO:
+    - id: set_pr_url
+      run: |
+        echo ${{ github.run_id }}
+        echo "------------------------
+        echo ${{ steps.create_pr.outputs.pull-request-url }}
+      shell: bash
+
     - name: Mark the Autodoc Run as completed
       env:
         PYTHONPATH: ${{ github.action_path }}
@@ -103,5 +111,5 @@ runs:
         --server-address ${{ inputs.runllm_server_address }} \
         --api-key ${{ inputs.runllm_api_key }} \ 
         --run-id ${{ github.run_id }} \
-        --gh-action-url ${{ steps.create_pr.outputs.pull-request-url }}
+        --pr-url ${{ steps.create_pr.outputs.pull-request-url }}
       shell: bash
