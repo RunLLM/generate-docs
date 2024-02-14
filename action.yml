@@ -85,6 +85,7 @@ runs:
       shell: bash
 
     - name: Create Pull Request
+      id: create_pr
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ inputs.github_token }}
@@ -94,4 +95,13 @@ runs:
         body: ${{ steps.get-pr-body.outputs.body}}
         base: ${{ inputs.base_branch }}
 
-    # TODO: finish the autodoc workflow
+    - name: Mark the Autodoc Run as completed
+      env:
+        PYTHONPATH: ${{ github.action_path }}
+      run: |
+        python ${{ github.action_path }}/scripts/mark_run_completed.py \
+        --server-address ${{ inputs.runllm_server_address }} \
+        --api-key ${{ inputs.runllm_api_key }} \ 
+        --run-id ${{ github.run_id }} \
+        --gh-action-url ${{ steps.create_pr.outputs.pull-request-url }}
+      shell: bash
