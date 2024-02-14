@@ -1,0 +1,11 @@
+# Python
+**/__pycache__/
+**server.egg-info/
+**build/
+
+.idea/*
+
+# Python notebook checkpoints
+**/.ipynb_checkpoints/
+
+commons.iml
