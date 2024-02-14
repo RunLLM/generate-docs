@@ -6,8 +6,9 @@ for that file, then open a pull request with the changes and an explanation.
 
 ## Requirements
 The following Github Secrets must be accessible to the action:
-** RUNLLM_API_KEY: The API key for your Runllm account.
-** GITHUB_TOKEN: The Github token for the repository.
+
+* RUNLLM_API_KEY: The API key for your Runllm account.
+* GITHUB_TOKEN: The Github token for the repository.
 
 ## Usage
 This action is expected to be used only with push-based workflows. It is recommended to use this action by copy-pasting the following github workflow:
