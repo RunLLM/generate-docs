@@ -132,7 +132,7 @@ class RunLLMClient:
         self._check_for_error(resp)
         return ExplainAutodocResponse(**resp.json())
 
-    def mark_completed(self, run_id: int, pull_request_url: str) -> None:
+    def mark_completed(self, run_id: str, pull_request_url: str) -> None:
         resp = requests.put(
             self.server_address + f"/api/autodoc/{run_id}",
             headers=self._get_default_headers(),
