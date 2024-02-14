@@ -37,14 +37,13 @@ runs:
       run: git diff ${{ inputs.base_branch }}...HEAD > diff.txt
       shell: bash
 
-    # TODO: use a script instead of a bash command.
-    #    - name: Check that the input_api_file was involved in the diff
-    #      run: |
-    #          if ! grep -q ${{ inputs.input_api_file }} diff.txt; then
-    #              echo "Error: The input API file was not involved in the diff. Exiting."
-    #              exit 1
-    #          fi
-    #      shell: bash
+    - name: Check that the input_api_file was involved in the diff
+      run: |
+        if ! grep -q "diff --git a/${{ inputs.input_api_file }} b/${{ inputs.input_api_file }}" diff.txt; then
+              echo "Error: The input API file was not involved in the diff. Exiting."
+              exit 1
+          fi
+      shell: bash
 
     - uses: actions/setup-python@v2
       with:
