@@ -25,15 +25,9 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # TODO: add the checkout action here before publishing.
-
-    # TODO: remove
-#    - name: Install tree
-#      run: sudo apt-get install tree
-#      shell: bash
-#    - name: Print directory tree up to depth 4
-#      run: tree -a -L 4
-#      shell: bash
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
     - name: Fetch main branch
       run: git fetch origin main:main
@@ -68,7 +62,7 @@ runs:
       env:
         GITHUB_REPO_NAME: ${{ github.repository}}
       run: |
-        python .github/scripts/generate_docs.py \
+        python scripts/generate_docs.py \
         --server-address ${{ inputs.runllm_server_address }} \
         --api-key ${{ inputs.runllm_api_key }} \
         --input-api-file ${{ inputs.input_api_file }} \
@@ -80,10 +74,13 @@ runs:
     - id: get-pr-body
       run: |
         body=$(cat pr-body.txt)
-        body="${body//'%'/'%25'}"
-        body="${body//$'\n'/'%0A'}"
-        body="${body//$'\r'/'%0D'}"
-        echo "pr_body=${body}" >> $GITHUB_OUTPUT
+        echo "pr_body<<EOF" >> $GITHUB_OUTPUT
+        echo "$body"
+        echo "EOF"
+#        body="${body//'%'/'%25'}"
+#        body="${body//$'\n'/'%0A'}"
+#        body="${body//$'\r'/'%0D'}"
+#        echo "pr_body=${body}" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Remove temporary files
