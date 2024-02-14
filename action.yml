@@ -61,6 +61,7 @@ runs:
     - name: Update OpenAPI Spec
       env:
         GITHUB_REPO_NAME: ${{ github.repository}}
+        PYTHONPATH: ${{ github.action_path }}
       run: |
         python ${{ github.action_path }}/scripts/generate_docs.py \
         --server-address ${{ inputs.runllm_server_address }} \
