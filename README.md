@@ -18,8 +18,8 @@ name: Maintain OpenAPI Spec
 
 on:
   push:
-    branches: main
-    path: 
+    branches: [main]
+    paths: 
       - '<path-to-your-api-file>'
 
 permissions:
@@ -49,8 +49,8 @@ name: Maintain OpenAPI Spec
 
 on:
   push:
-    branches: main
-    path: 
+    branches: [main]
+    paths: 
       - 'src/books_server.py'
 
 permissions:
