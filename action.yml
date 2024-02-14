@@ -98,10 +98,10 @@ runs:
     - name: Mark the Autodoc Run as completed
       env:
         PYTHONPATH: ${{ github.action_path }}
+        AUTODOC_RUN_ID: ${{ github.autodoc_run_id }}
       run: |
         python ${{ github.action_path }}/scripts/mark_run_completed.py \
         --server-address ${{ inputs.runllm_server_address }} \
         --api-key ${{ inputs.runllm_api_key }} \
-        --run-id ${{ github.run_id }} \
         --pr-url ${{ steps.create_pr.outputs.pull-request-url }}
       shell: bash

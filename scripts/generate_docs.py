@@ -86,7 +86,7 @@ def update_docs(
         mode: AutodocOutputMode,
         diff_by_file_path: Dict[str, str],
         openapi_spec: Optional[str],
-) -> None:
+) -> int:
     """Update the documentation for the given files in the diff.
 
     NOTE: For OpenAPI mode, we currently expect to only be processing a single inut file right now.
@@ -167,6 +167,7 @@ def update_docs(
         raise
 
     print(f"Total completion tokens: {total_token_count}, Cost: ${calculate_cost(total_token_count):.2f}")
+    return run_id
 
 
 # Command line argument parsing
@@ -222,10 +223,14 @@ if __name__ == "__main__":
         raise Exception("Only 'openapi' mode is currently supported!.")
 
     client = RunLLMClient(args.server_address, args.api_key)
-    update_docs(
+    run_id = update_docs(
         client,
         gh_action_url,
         mode,
         diff_by_file_name,
         args.output_openapi_file,
     )
+
+    # Track the Autodoc Run ID for subsequent GH action steps.
+    with open(os.getenv('GITHUB_ENV'), 'a') as env_file:
+        env_file.write(f"AUTODOC_RUN_ID={run_id}\n")
